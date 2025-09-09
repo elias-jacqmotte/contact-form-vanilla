@@ -1,0 +1,298 @@
+/* ---------------------------- */
+/*             RESET            */
+/* ---------------------------- */
+
+/* https://piccalil.li/blog/a-modern-css-reset/ */
+
+/* Box sizing */
+/* Pseudo elements are also included since it is not automatically selected. */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    /* Calculating widths & heights easier */
+}
+
+/* Reset margins */
+/* Can be used to battle "collapsing margins" */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+figure,
+picture {
+    margin: 0;
+}
+
+
+/* Design requires no bold to be used. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-weight: 400;
+}
+
+
+/* Make images easier to work with */
+img,
+picture {
+    max-width: 100%;
+    /* display: block; */
+    /* This element has been commented out, since the "hidden" attribute won't work when display block is enabled. */
+}
+
+/* Make forms elements easier to work with */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+    /* Default: font properties are not inherited for these elements */
+}
+
+/* Remove animations for people who've turned them off */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+
+/* ---------------------------- */
+/*      CUSTOM PROPERTIES       */
+/* ---------------------------- */
+:root {
+    transition-behavior: allow-discrete;
+    /* Allow for discrete rules to be animatable. Copy this to the location where it is used. This property is not inherited.*/
+    interpolate-size: allow-keywords;
+    /* Allows for animating to height auto */
+
+    /* Primary colors */
+    --clr-green-200: 148, 38%, 91%;
+    --clr-green-600: 169, 82%, 27%;
+    --clr-red: 0 66% 54%;
+
+    /* Neutral colors */
+    --clr-white: 0, 0%, 100%;
+    --clr-grey-500: 186, 15%, 59%;
+    --clr-grey-900: 187, 24%, 22%;
+    
+    --fs-p: 1rem;
+
+    --ff-Karla: "Karla", sans-serif;
+
+    /* Border radius */
+    --br-formelement: 0.5rem;
+
+}
+
+/* ---------------------------- */
+/*       UTILITY CLASSES        */
+/* ---------------------------- */
+
+/* ---------------------------- */
+/*        PAGE SPECIFICS        */
+/* ---------------------------- */
+body {
+    background-color: hsl(var(--clr-green-200));
+    display: grid;
+    height: 100vh;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: 
+    '.'
+    'content'
+    'footer'
+    ;
+
+    font-family: var(--ff-Karla);
+    font-size: var(--fs-p);
+
+    margin: 1rem;
+    position: relative;
+}
+
+.form {
+    grid-area: content;
+    background-color: hsl(var(--clr-white));
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+    'header'
+    'first-name'
+    'last-name'
+    'email'
+    'query'
+    'message'
+    'consent'
+    'submit'
+    ;
+    padding: 1rem;
+    width: 100%;
+    max-width: 50rem;
+    border-radius: 1rem;
+
+    justify-self: center;
+    align-self: center;
+
+    h1 {
+        font-weight: bold;
+        grid-area: header;
+    };
+
+    div {
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem;
+
+    }
+
+    input {
+        cursor: pointer;
+        border-radius: var(--br-formelement);
+        border: 1px solid hsl(var(--clr-grey-500));
+        padding: 0.54rem;
+        margin-top: 0.25rem;
+    }
+
+    input:focus,
+    input:active,
+    textarea:focus,
+    textarea:active {
+        outline: 2px solid hsl(var(--clr-green-600));
+    }
+
+    div label:not(.no-asterisk)::after {
+        content: "*";
+        color: hsl(var(--clr-green-600));
+        padding-left: 0.25rem;
+    }
+
+
+    div:has(input[type="radio"]) .wrapper div {
+        border: 1px solid hsl(var(--clr-grey-500));
+        display: flex;
+        flex-direction: row;
+        margin-block: 0.5rem;
+        gap: 0.5rem;
+        border-radius: var(--br-formelement);
+    }
+
+    div:has(input[type="checkbox"]) div {
+        flex-direction: row;
+
+        label {
+            padding-left: 1rem;
+        }
+    }
+
+    textarea {
+        border: 1px solid hsl(var(--clr-grey-500));
+        border-radius: var(--br-formelement);
+    }
+
+    input[type="submit"] {
+        color: hsl(var(--clr-white));
+        background-color: hsl(var(--clr-green-600));
+    }
+}
+
+footer {
+    grid-area: footer;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.toast {
+    position: absolute;
+    top: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 40rem;
+
+    background-color: hsl(var(--clr-green-600));
+    border-radius: 1rem;
+    padding: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    color: hsl(var(--clr-white));
+
+    header {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        font-weight: bolder;
+        padding-bottom: 0.5rem;
+    }
+}
+
+@media (width > 500px) {
+    .form {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+        'header header'
+        'first-name last-name'
+        'email email'
+        'query query'
+        'message message'
+        'consent consent'
+        'submit submit'
+        ;
+    }
+
+    div:has(#email) {
+        grid-area: email;
+    }
+
+    #radio-form {
+        grid-area: query;
+
+        .wrapper {
+            flex-direction: row;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .wrapper div {
+            width: 100%;
+        }
+    }
+
+    div:has(textarea) {
+        grid-area: message;
+    }
+
+    #checkbox-form {
+        grid-area: consent;
+    }
+
+    input[type="submit"] {
+        grid-area: submit;
+    }
+}
+
+.fault {
+    border: 1px solid hsl(var(--clr-red)) !important;
+}
+
+.error {
+    color: hsl(var(--clr-red));
+}
+
+.hidden {
+    display: none !important;
+}
